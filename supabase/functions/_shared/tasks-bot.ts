@@ -1105,52 +1105,6 @@ async function handleCommand(chatId: number, text: string) {
 export async function handleTasksBotRequest(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   try {
-    if (req.method === "GET") {
-      const url = new URL(req.url);
-      if (url.searchParams.get("telegram_health") === "1") {
-        const projectRef = (SUPABASE_URL.match(/^https?:\/\/([^.]+)\./) || [])[1] ?? null;
-        return new Response(
-          JSON.stringify({
-            ok: true,
-            telegram_bot_token_present: TG_TOKEN.length > 0,
-            telegram_storage_chat_id_present: Boolean(Deno.env.get("TELEGRAM_STORAGE_CHAT_ID")),
-            internal_actions_secret_present: Boolean(Deno.env.get("INTERNAL_ACTIONS_SECRET")),
-            internal_function_secret_present: Boolean(Deno.env.get("INTERNAL_FUNCTION_SECRET")),
-            webhook_target: projectRef ? `https://${projectRef}.functions.supabase.co/telegram-tasks-bot` : null,
-          }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
-
-      if (url.searchParams.get("telegram_setup") === "1") {
-        if (!TG_TOKEN) {
-          return new Response(JSON.stringify({ error: "TELEGRAM_BOT_TOKEN missing" }), {
-            status: 500,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          });
-        }
-        const projectRef = (SUPABASE_URL.match(/^https?:\/\/([^.]+)\./) || [])[1];
-        const target = `https://${projectRef}.functions.supabase.co/telegram-tasks-bot`;
-        const setRes = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/setWebhook`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            url: target,
-            allowed_updates: ["message", "edited_message", "callback_query"],
-            drop_pending_updates: false,
-          }),
-        });
-        const setJson = await setRes.json().catch(() => ({}));
-        await setMyCommands();
-        const infoRes = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/getWebhookInfo`);
-        const infoJson = await infoRes.json().catch(() => ({}));
-        return new Response(
-          JSON.stringify({ ok: setJson.ok === true, target, set: setJson, info: infoJson }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
-    }
-
     const update = await req.json();
 
     // Internal action router (called from frontend / other edge functions / webhooks).
