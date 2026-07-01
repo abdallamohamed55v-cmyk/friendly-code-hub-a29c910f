@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.docs-generate]
 verify_jwt = false
+
+[functions.telegram-tasks-bot]
+verify_jwt = false
