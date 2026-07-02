@@ -377,7 +377,7 @@ export default function MobileChatHeader({
                         type="button"
                         onClick={inlineInvite.onSend}
                         disabled={inlineInvite.loading || !inlineInvite.email.trim()}
-                        className="w-full h-10 rounded-xl text-[13px] font-semibold bg-white text-black shadow-sm active:opacity-90 disabled:opacity-50 inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                        className="w-full h-10 rounded-xl text-[13px] font-semibold bg-white text-black shadow-sm active:opacity-90 disabled:opacity-50 inline-flex items-center justify-center whitespace-nowrap"
                       >
                         {inlineInvite.loading ? (
                           <>
@@ -385,10 +385,7 @@ export default function MobileChatHeader({
                             Sending…
                           </>
                         ) : (
-                          <>
-                            <Send className="w-4 h-4" />
-                            Send invite
-                          </>
+                          "Send invite"
                         )}
                       </button>
                     </div>
