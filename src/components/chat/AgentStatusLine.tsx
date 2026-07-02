@@ -54,6 +54,21 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
     }
   }, [toolActivity?.name, toolActivity?.status]);
 
+  // Accumulate a thought log so the user can inspect what the agent is doing.
+  useEffect(() => {
+    const entry = searchStatus?.trim();
+    if (!entry) return;
+    setThoughtLog((prev) => (prev[prev.length - 1] === entry ? prev : [...prev, entry]));
+  }, [searchStatus]);
+  useEffect(() => {
+    if (toolActivity?.status === "running" && toolActivity.name) {
+      const meta = resolveToolActivity(toolActivity.name, toolActivity.appSlug);
+      const verb = meta?.en || toolActivity.name;
+      const line = toolActivity.target ? `${verb} · ${toolActivity.target}` : verb;
+      setThoughtLog((prev) => (prev[prev.length - 1] === line ? prev : [...prev, line]));
+    }
+  }, [toolActivity?.name, toolActivity?.status, toolActivity?.target, toolActivity?.appSlug]);
+
   const ar = useMemo(() => {
     if (isCleopatra) return true;
     if (userText && ARABIC_RE.test(userText)) return true;
