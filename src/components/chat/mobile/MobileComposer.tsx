@@ -175,7 +175,7 @@ export default function MobileComposer({
           disabled={!canSend}
           whileTap={canSend ? { scale: 0.88 } : undefined}
           transition={TAP_SPRING}
-          className="theme-fixed shrink-0 flex items-center justify-center bg-destructive text-white shadow-[0_2px_10px_rgba(0,0,0,0.3)] disabled:opacity-40 disabled:bg-foreground/15 disabled:text-foreground/60 disabled:shadow-none"
+          className="theme-fixed shrink-0 flex items-center justify-center bg-white text-black shadow-[0_2px_10px_rgba(0,0,0,0.3)] disabled:opacity-40 disabled:bg-foreground/15 disabled:text-foreground/60 disabled:shadow-none"
           style={{ height: "2.75rem", width: "2.75rem", borderRadius: "999px" }}
         >
           <ArrowUp className="w-5 h-5" />
