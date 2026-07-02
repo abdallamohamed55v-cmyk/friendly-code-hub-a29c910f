@@ -1086,7 +1086,7 @@ const ChatMessage = ({
                           await handleCopy();
                           closeMenu();
                         }}
-                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors"
+                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 transition-colors"
                         role="menuitem"
                       >
                         <Copy className="w-[18px] h-[18px] shrink-0" strokeWidth={1.8} />
@@ -1098,7 +1098,7 @@ const ChatMessage = ({
                           handleEditAction();
                           closeMenu();
                         }}
-                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors"
+                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 transition-colors"
                         role="menuitem"
                       >
                         <Pencil className="w-[18px] h-[18px] shrink-0" strokeWidth={1.8} />
