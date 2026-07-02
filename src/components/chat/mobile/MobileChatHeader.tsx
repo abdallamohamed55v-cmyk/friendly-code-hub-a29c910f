@@ -256,12 +256,9 @@ export default function MobileChatHeader({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              className="md:hidden fixed inset-0 z-40 bg-transparent"
+              transition={{ duration: 0.1 }}
+              className="md:hidden fixed inset-0 z-40 bg-transparent touch-none"
               onClick={() => {
-                if (!isDeleting) close();
-              }}
-              onTouchStart={() => {
                 if (!isDeleting) close();
               }}
             />
@@ -269,12 +266,12 @@ export default function MobileChatHeader({
             <motion.div
               key="lg-menu"
               data-testid="mobile-more-menu-content"
-              initial={{ opacity: 0, scale: 0.62, y: 0 }}
+              initial={{ opacity: 0, scale: 0.92, y: 0 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.62, y: 0 }}
-              transition={{ type: "spring", stiffness: 380, damping: 28, mass: 0.7 }}
+              exit={{ opacity: 0, scale: 0.96, y: 0 }}
+              transition={{ duration: 0.13, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                top: "calc(env(safe-area-inset-top, 0px) + 6px)",
+                top: "calc(var(--promo-banner-h, 0px) + max(env(safe-area-inset-top), 0.25rem) + 0.375rem)",
                 right: "12px",
                 left: "auto",
                 transformOrigin: "top right",
@@ -285,10 +282,10 @@ export default function MobileChatHeader({
                 {menuView === "main" && (
                   <motion.div
                     key="menu-main"
-                    initial={{ opacity: 0, x: 10 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.14 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
                     className="py-1.5"
                   >
                     {items.map(({ icon: Icon, label, onClick }) => (
@@ -325,10 +322,10 @@ export default function MobileChatHeader({
                 {menuView === "rename" && inlineRename && (
                   <motion.div
                     key="menu-rename"
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ duration: 0.14 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
                     className="p-3"
                   >
                     <BackButton onClick={() => setMenuView("main")} />
@@ -373,10 +370,10 @@ export default function MobileChatHeader({
                 {menuView === "invite" && inlineInvite && (
                   <motion.div
                     key="menu-invite"
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ duration: 0.14 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
                     className="p-3"
                   >
                     <BackButton onClick={() => setMenuView("main")} />
@@ -435,10 +432,10 @@ export default function MobileChatHeader({
                 {menuView === "share" && inlineShare && (
                   <motion.div
                     key="menu-share"
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ duration: 0.14 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
                     className="p-3"
                   >
                     <BackButton onClick={() => setMenuView("main")} />
@@ -507,10 +504,10 @@ export default function MobileChatHeader({
                 {menuView === "delete" && (
                   <motion.div
                     key="menu-delete"
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    transition={{ duration: 0.14 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.1 }}
                     className="p-3"
                   >
                     <BackButton onClick={() => setMenuView("main")} disabled={isDeleting} />

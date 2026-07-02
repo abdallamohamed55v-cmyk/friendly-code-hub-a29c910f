@@ -5191,7 +5191,6 @@ button[data-testid="mobile-composer-plus"]:hover {
 
 /* Chat options menu — cinematic liquid-glass (spec: liquid-glass-strong). */
 .chat-options-glass-menu,
-.mobile-more-glass-menu,
 [data-radix-popper-content-wrapper] .chat-options-glass-menu {
   background: rgba(255, 255, 255, 0.01) !important;
   background-blend-mode: luminosity;
@@ -5207,35 +5206,17 @@ button[data-testid="mobile-composer-plus"]:hover {
 
 .mobile-more-glass-menu {
   position: fixed !important;
-  background:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, 0.115) 0%,
-      rgba(255, 255, 255, 0.022) 36%,
-      rgba(255, 255, 255, 0.012) 64%,
-      rgba(255, 255, 255, 0.085) 100%),
-    rgba(255, 255, 255, 0.01) !important;
-  background-blend-mode: overlay, luminosity;
-  -webkit-backdrop-filter: blur(4px) saturate(1.35) brightness(1.08) !important;
-  backdrop-filter: blur(4px) saturate(1.35) brightness(1.08) !important;
-  box-shadow:
-    0 18px 44px -22px rgba(0, 0, 0, 0.72),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18),
-    inset 0 -1px 1px rgba(255, 255, 255, 0.1) !important;
-}
-
-.mobile-more-glass-menu::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 32%),
-    radial-gradient(90% 46% at 50% -10%, rgba(255, 255, 255, 0.22), transparent 72%),
-    radial-gradient(92% 40% at 50% 112%, rgba(255, 255, 255, 0.14), transparent 68%);
-  mix-blend-mode: screen;
-  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.01) !important;
+  background-blend-mode: luminosity;
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
+  border: none !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .chat-options-glass-menu,
@@ -5267,6 +5248,22 @@ button[data-testid="mobile-composer-plus"]:hover {
           mask-composite: exclude;
   pointer-events: none;
   z-index: 1;
+}
+
+.mobile-more-glass-menu::before {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+}
+
+.mobile-more-glass-menu::after {
+  content: none !important;
 }
 
 .chat-options-glass-menu > *,
