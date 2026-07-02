@@ -1,6 +1,5 @@
 
 import { useState, type ReactNode } from "react";
-import { Zap, ChevronRight } from "lucide-react";
 import ComposerAttachments from "./ComposerAttachments";
 import { RemoteAiBusyBanner } from "./RemoteAiBusyBanner";
 import { MentionDropdown } from "./MentionDropdown";
@@ -8,8 +7,8 @@ import { ComposerMobileModeBar } from "./ComposerMobileModeBar";
 import { ComposerAnimatedInput } from "./ComposerAnimatedInput";
 import { DesktopModeChips } from "./DesktopModeChips";
 import { ActiveServicePill } from "./ActiveServicePill";
-import { useUserPlan } from "@/hooks/useUserPlan";
 import type { AttachedFile } from "../hooks/useAttachments";
+
 
 
 
@@ -121,9 +120,8 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
       <div className="max-w-3xl mx-auto space-y-2 pointer-events-auto">
         <RemoteAiBusyBanner remoteAiBusy={remoteAiBusy} />
 
-        <UpgradeBannerMobile isEmpty={isEmpty} navigate={navigate} />
-
         <div className="relative mx-auto w-full max-w-3xl">
+
           <div data-tour="composer" className="relative">
             {mentionQuery && (
               <MentionDropdown
@@ -191,48 +189,4 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
 
 }
 
-/**
- * Small mobile-only "Get more with Megsy Pro" pill shown above the composer
- * for free users. Hidden on desktop, hidden for paid plans, and hidden while
- * the empty-state hero owns the screen so it doesn't sit alone.
- */
-function UpgradeBannerMobile({
-  isEmpty,
-  navigate,
-}: {
-  isEmpty: boolean;
-  navigate: (path: string) => void;
-}) {
-  const { isPaid, loading } = useUserPlan();
-  if (loading || isPaid) return null;
-  return (
-    <div className="md:hidden px-1">
-      <button
-        type="button"
-        onClick={() => navigate("/settings/billing")}
-        className="w-full flex items-center gap-2.5 rounded-[12px] px-4 min-h-[44px] transition-colors active:scale-[0.995]"
-        style={{
-          background: "#2A2520",
-          border: "1px solid #3A332C",
-        }}
-      >
-        <Zap className="w-4 h-4 shrink-0" style={{ color: "#D97757" }} fill="#D97757" />
-        <span
-          className="flex-1 text-left truncate"
-          style={{
-            fontFamily:
-              '"Styrene A", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-            fontSize: 14,
-            fontWeight: 500,
-            color: "#E8E0D2",
-            letterSpacing: "-0.1px",
-          }}
-        >
-          Upgrade to Megsy Pro for more messages
-        </span>
-        <ChevronRight className="w-4 h-4 shrink-0" style={{ color: "#8A7E72" }} />
-      </button>
-    </div>
-  );
-}
 

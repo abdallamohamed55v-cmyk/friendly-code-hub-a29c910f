@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/glass-sheet";
 import { MEGSY_TYPING_PHRASES, pickMegsyPhrase } from "./megsyPhrases";
 import MobileOnboardingTour from "./MobileOnboardingTour";
+import MegsyStar from "@/components/files/MegsyStar";
 
 export type LandingChipId = "image" | "video" | "website";
 
@@ -704,49 +705,25 @@ const MobileChatLanding = ({
     </svg>
   );
 
-  return (
-    <div className="md:hidden relative w-full h-full overflow-hidden bg-transparent text-foreground">
-      {modelControlSlot ? (
-        <div
-          data-tour="model"
-          className="fixed top-0 left-1/2 z-40 -translate-x-1/2"
-          style={{ paddingTop: "max(env(safe-area-inset-top), 0.25rem)" }}
-        >
-          {modelControlSlot}
-        </div>
-      ) : null}
+  void modelControlSlot;
 
-      {/* Scrollable hero area — clean glass style over the video background */}
+  return (
+    <div className="md:hidden relative w-full h-full overflow-hidden text-foreground" style={{ background: "#000" }}>
+      {/* Clean centered hero — blue Megsy star + greeting on pure black */}
       <div
         className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y pt-[max(env(safe-area-inset-top),16px)] px-5"
-        style={{
-          color: "hsl(var(--brand-parchment))",
-          fontFamily: '"Space Grotesk", "Inter", system-ui, sans-serif',
-        }}
+        style={{ color: "#F5F5F7" }}
       >
         <div className="min-h-[calc(100dvh-220px)] flex flex-col items-center justify-center text-center">
-          <div className="flex flex-col items-center justify-center gap-6 w-full max-w-sm">
+          <div className="flex flex-col items-center justify-center gap-5 w-full max-w-sm">
             {!isReactive && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-                className="relative"
-                style={{ width: 48, height: 48 }}
+                transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
                 aria-hidden
               >
-                {/* Claude-style 6-point asterisk star, flat terracotta */}
-                <svg viewBox="0 0 100 100" width="48" height="48">
-                  <g fill={isCleopatra ? "#C9A84C" : "#D97757"}>
-                    {[0, 60, 120, 180, 240, 300].map((deg) => (
-                      <path
-                        key={deg}
-                        d="M50 6 C52 6 53.2 7.6 53.2 9.6 L51.6 46 C51.55 47.4 50.9 48 50 48 C49.1 48 48.45 47.4 48.4 46 L46.8 9.6 C46.8 7.6 48 6 50 6 Z"
-                        transform={`rotate(${deg} 50 50)`}
-                      />
-                    ))}
-                  </g>
-                </svg>
+                <MegsyStar size={64} className="text-[#3B82F6]" />
               </motion.div>
             )}
 
@@ -757,16 +734,15 @@ const MobileChatLanding = ({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 }}
-                className="text-[32px]"
+                transition={{ duration: 0.3, ease: "easeOut", delay: 0.08 }}
+                className="text-[30px]"
                 style={{
                   fontFamily:
-                    '"Tiempos Headline", "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif',
-                  fontWeight: 600,
-                  color: "#E8E0D2",
+                    '"Source Serif 4", "Source Serif Pro", "Tiempos Headline", Georgia, serif',
+                  fontWeight: 500,
+                  color: "#F5F5F7",
                   letterSpacing: "-0.4px",
                   lineHeight: 1.2,
-                  textShadow: "0 2px 24px rgba(0,0,0,0.45)",
                 }}
               >
                 {(() => {
@@ -782,8 +758,6 @@ const MobileChatLanding = ({
                 })()}
               </motion.h1>
             )}
-
-            {false && !isReactive && <MobileOnboardingTour />}
           </div>
         </div>
       </div>

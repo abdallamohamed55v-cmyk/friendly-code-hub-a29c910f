@@ -1,9 +1,12 @@
+import { Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ComposerModelMenu from "../ComposerModelMenu";
 import SlidesTemplateButton from "./SlidesTemplateButton";
 import ResearchDepthDropdown from "./ResearchDepthDropdown";
 import type { ChatMode } from "../chatConstants";
 import type { AgentDef } from "@/lib/agentRegistry";
+import { useUserPlan } from "@/hooks/useUserPlan";
 
 interface ComposerInlineSlotProps {
   isMobileViewport: boolean;
@@ -27,10 +30,9 @@ interface ComposerInlineSlotProps {
   setResearchDepthOpen: (v: boolean) => void;
 }
 
-/** Inline pills/menus rendered inside the desktop composer (AnimatedInput.inlineSlot). */
+/** Inline pills/menus rendered inside the composer (AnimatedInput.inlineSlot). */
 export function ComposerInlineSlot(props: ComposerInlineSlotProps) {
   const {
-    isMobileViewport,
     chatMode,
     tierMenuOpen,
     setTierMenuOpen,
@@ -50,8 +52,6 @@ export function ComposerInlineSlot(props: ComposerInlineSlotProps) {
     researchDepthOpen,
     setResearchDepthOpen,
   } = props;
-
-  if (isMobileViewport) return null;
 
   const isSlidesMode =
     chatMode === "slides" ||
@@ -101,6 +101,28 @@ export function ComposerInlineSlot(props: ComposerInlineSlotProps) {
           setResearchDepthOpen={setResearchDepthOpen}
         />
       ) : null}
+      <UpgradeInlinePill />
     </>
   );
 }
+
+function UpgradeInlinePill() {
+  const { isPaid, loading } = useUserPlan();
+  if (loading || isPaid) return null;
+  return (
+    <Link
+      to="/pricing"
+      aria-label="Upgrade to Megsy Pro"
+      className="shrink-0 inline-flex items-center gap-1.5 h-8 px-2.5 rounded-full text-[12px] font-semibold transition-colors active:scale-95"
+      style={{
+        background: "rgba(217, 119, 87, 0.12)",
+        border: "1px solid rgba(217, 119, 87, 0.3)",
+        color: "#D97757",
+      }}
+    >
+      <Zap className="w-3.5 h-3.5" fill="currentColor" />
+      <span>Upgrade</span>
+    </Link>
+  );
+}
+
