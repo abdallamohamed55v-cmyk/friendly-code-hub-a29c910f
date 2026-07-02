@@ -717,14 +717,9 @@ const MobileChatLanding = ({
         <div className="min-h-[calc(100dvh-220px)] flex flex-col items-center justify-center text-center">
           <div className="flex flex-col items-center justify-center gap-5 w-full max-w-sm">
             {!isReactive && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.6 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
-                aria-hidden
-              >
-                <MegsyStar size={64} className="text-[#3B82F6]" />
-              </motion.div>
+              <div aria-hidden>
+                <MegsyStar size={64} static className="text-[#3B82F6]" />
+              </div>
             )}
 
             {!isReactive && (

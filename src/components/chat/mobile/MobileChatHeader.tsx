@@ -191,29 +191,12 @@ export default function MobileChatHeader({
           <MegsySidebarToggleIcon />
         </button>
 
-        {modelSlot ? <div className="flex items-center">{modelSlot}</div> : null}
-
         <div className="flex-1 min-w-0" />
         {!hasConversation && rightSlot ? (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
             {rightSlot}
           </div>
         ) : null}
-
-        {!hasConversation && (
-          <div className="flex items-center gap-1">
-            <Link
-              to="/pricing"
-              aria-label="Upgrade Megsy"
-              data-testid="mobile-upgrade"
-              className="h-9 inline-flex items-center px-1 text-foreground bg-transparent border-0 active:opacity-70 transition"
-            >
-              <span className="text-[12.5px] font-semibold leading-none whitespace-nowrap underline underline-offset-[5px] decoration-foreground/55 decoration-[1px]">
-                Get Plus
-              </span>
-            </Link>
-          </div>
-        )}
 
         {hasConversation && (
           <button
