@@ -725,34 +725,27 @@ const MobileChatLanding = ({
         }}
       >
         <div className="min-h-[calc(100dvh-220px)] flex flex-col items-center justify-center text-center">
-          <div className="flex flex-col items-center justify-center gap-5 w-full max-w-sm">
+          <div className="flex flex-col items-center justify-center gap-6 w-full max-w-sm">
             {!isReactive && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
+                initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
                 className="relative"
-                style={{ width: 44, height: 44 }}
+                style={{ width: 48, height: 48 }}
+                aria-hidden
               >
-                <svg viewBox="0 0 100 100" width="44" height="44" aria-hidden>
-                  <defs>
-                    <linearGradient id="megsyStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#f4a58a" />
-                      <stop offset="55%" stopColor="#e97b5c" />
-                      <stop offset="100%" stopColor="#c8624a" />
-                    </linearGradient>
-                  </defs>
-                  {isCleopatra ? (
-                    <path
-                      d="M50 6 L55 44 L94 50 L55 56 L50 94 L45 56 L6 50 L45 44 Z"
-                      fill="#C9A84C"
-                    />
-                  ) : (
-                    <path
-                      d="M50 6 L55 44 L94 50 L55 56 L50 94 L45 56 L6 50 L45 44 Z"
-                      fill="url(#megsyStarGrad)"
-                    />
-                  )}
+                {/* Claude-style 6-point asterisk star, flat terracotta */}
+                <svg viewBox="0 0 100 100" width="48" height="48">
+                  <g fill={isCleopatra ? "#C9A84C" : "#D97757"}>
+                    {[0, 60, 120, 180, 240, 300].map((deg) => (
+                      <path
+                        key={deg}
+                        d="M50 6 C52 6 53.2 7.6 53.2 9.6 L51.6 46 C51.55 47.4 50.9 48 50 48 C49.1 48 48.45 47.4 48.4 46 L46.8 9.6 C46.8 7.6 48 6 50 6 Z"
+                        transform={`rotate(${deg} 50 50)`}
+                      />
+                    ))}
+                  </g>
                 </svg>
               </motion.div>
             )}
@@ -764,24 +757,29 @@ const MobileChatLanding = ({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
-                className="text-[30px] leading-[1.1] tracking-tight"
+                transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 }}
+                className="text-[32px]"
                 style={{
                   fontFamily:
-                    '"Instrument Serif", "Cormorant Garamond", "Times New Roman", serif',
-                  fontWeight: 400,
-                  color: "hsl(var(--brand-parchment))",
-                  letterSpacing: "-0.005em",
+                    '"Tiempos Headline", "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif',
+                  fontWeight: 600,
+                  color: "#E8E0D2",
+                  letterSpacing: "-0.4px",
+                  lineHeight: 1.2,
                   textShadow: "0 2px 24px rgba(0,0,0,0.45)",
                 }}
               >
-                {isCleopatra
-                  ? firstName
-                    ? `أهلاً بعودتك يا ${firstName}`
-                    : "أهلاً بعودتك"
-                  : firstName
-                    ? `Back at it, ${firstName}`
-                    : "Back at it"}
+                {(() => {
+                  const h = new Date().getHours();
+                  const partEn =
+                    h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+                  const partAr =
+                    h < 12 ? "صباح الخير" : h < 18 ? "مساء الخير" : "مساء الخير";
+                  if (isCleopatra) {
+                    return firstName ? `${partAr}، ${firstName}` : partAr;
+                  }
+                  return firstName ? `${partEn}, ${firstName}` : partEn;
+                })()}
               </motion.h1>
             )}
 
@@ -789,6 +787,7 @@ const MobileChatLanding = ({
           </div>
         </div>
       </div>
+
 
 
 
