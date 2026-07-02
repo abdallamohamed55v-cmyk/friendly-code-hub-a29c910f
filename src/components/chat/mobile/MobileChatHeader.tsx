@@ -13,6 +13,8 @@ import {
   UserPlus,
   Pencil,
   Pin,
+  Star,
+  FolderPlus,
   Trash2,
 } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
@@ -163,10 +165,9 @@ export default function MobileChatHeader({
 
   const items: Array<{ icon: typeof Share2; label: string; onClick: () => void }> = [
     { icon: Share2, label: "Share", onClick: goShare },
-    { icon: Pin, label: isPinned ? "Unpin" : "Pin chat", onClick: () => runAndClose(onTogglePin) },
-    { icon: UserPlus, label: "Invite people", onClick: goInvite },
+    { icon: FolderPlus, label: "Add to project", onClick: goInvite },
+    { icon: Star, label: isPinned ? "Unstar" : "Star", onClick: () => runAndClose(onTogglePin) },
     { icon: Pencil, label: "Rename", onClick: goRename },
-    { icon: Plus, label: "New chat", onClick: () => runAndClose(onNewChat) },
   ];
 
   const confirmDelete = async () => {
@@ -251,8 +252,7 @@ export default function MobileChatHeader({
                 top: "calc(env(safe-area-inset-top, 0px) + 52px)",
                 transformOrigin: "top right",
               }}
-              className="mobile-more-glass-menu md:hidden fixed right-3 z-50 w-[280px] rounded-ios-lg overflow-hidden"
-              dir="rtl"
+              className="mobile-more-glass-menu md:hidden fixed right-3 z-50 w-[260px] rounded-ios-lg overflow-hidden"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {menuView === "main" && (
@@ -264,23 +264,22 @@ export default function MobileChatHeader({
                     transition={{ duration: 0.14 }}
                     className="py-1.5"
                   >
-                    {items.map(({ icon: Icon, label, onClick }, i) => (
-                      <div key={label}>
-                        <button
-                          type="button"
-                          onClick={onClick}
-                          data-testid={`mobile-menu-${label.toLowerCase().replace(/\s+/g, "-")}`}
-                          className="mobile-more-glass-item w-full flex items-center gap-3 px-4 py-3 transition-colors active:bg-foreground/[0.08] text-foreground"
-                        >
-                          <span className="flex-1 truncate text-[15px] font-medium text-right">
-                            {label}
-                          </span>
-                          <Icon
-                            className="w-[19px] h-[19px] text-foreground shrink-0"
-                            strokeWidth={1.8}
-                          />
-                        </button>
-                      </div>
+                    {items.map(({ icon: Icon, label, onClick }) => (
+                      <button
+                        key={label}
+                        type="button"
+                        onClick={onClick}
+                        data-testid={`mobile-menu-${label.toLowerCase().replace(/\s+/g, "-")}`}
+                        className="mobile-more-glass-item w-full flex items-center gap-3 px-4 py-3 transition-colors active:bg-foreground/[0.08] text-foreground"
+                      >
+                        <Icon
+                          className="w-[19px] h-[19px] text-foreground shrink-0"
+                          strokeWidth={1.8}
+                        />
+                        <span className="flex-1 truncate text-[15px] font-medium text-left">
+                          {label}
+                        </span>
+                      </button>
                     ))}
                     <button
                       type="button"
@@ -288,10 +287,10 @@ export default function MobileChatHeader({
                       data-testid="mobile-menu-delete"
                        className="mobile-more-glass-item w-full flex items-center gap-3 px-4 py-3 transition-colors active:bg-destructive/10 text-destructive"
                     >
-                      <span className="flex-1 truncate text-[15px] font-medium text-right">
+                      <Trash2 className="w-[19px] h-[19px] shrink-0" strokeWidth={1.8} />
+                      <span className="flex-1 truncate text-[15px] font-medium text-left">
                         Delete
                       </span>
-                      <Trash2 className="w-[19px] h-[19px] shrink-0" strokeWidth={1.8} />
                     </button>
                   </motion.div>
                 )}
