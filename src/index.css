@@ -5129,58 +5129,59 @@ button[data-testid="mobile-composer-plus"]:hover {
   }
 }
 
-/* Chat options menu — clean liquid glass matching the composer surface. */
+/* Chat options menu — cinematic liquid-glass (spec: liquid-glass-strong). */
 .chat-options-glass-menu,
 .mobile-more-glass-menu,
 [data-radix-popper-content-wrapper] .chat-options-glass-menu {
-  background:
-    radial-gradient(
-      120% 140% at 50% -20%,
-      hsl(0 0% 100% / 0.14) 0%,
-      hsl(0 0% 100% / 0.07) 35%,
-      transparent 65%
-    ),
-    linear-gradient(180deg, hsl(0 0% 10% / 0.84) 0%, hsl(0 0% 3% / 0.74) 100%) !important;
-  border: 1px solid hsl(0 0% 100% / 0.16) !important;
-  color: hsl(var(--foreground)) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(1.45) brightness(1.04) !important;
-  backdrop-filter: blur(24px) saturate(1.45) brightness(1.04) !important;
+  background: rgba(255, 255, 255, 0.01) !important;
+  background-blend-mode: luminosity;
+  -webkit-backdrop-filter: blur(50px) saturate(1.4) !important;
+  backdrop-filter: blur(50px) saturate(1.4) !important;
+  border: none !important;
   box-shadow:
-    inset 0 1.2px 0 0 hsl(0 0% 100% / 0.18),
-    inset 0 -1px 0 0 hsl(0 0% 0% / 0.35),
-    inset 0 0 24px 0 hsl(0 0% 100% / 0.03),
-    0 24px 70px -18px hsl(0 0% 0% / 0.65),
-    0 6px 20px -8px hsl(0 0% 0% / 0.45) !important;
+    4px 4px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 24px 60px -20px rgba(0, 0, 0, 0.6) !important;
+  position: relative;
+  overflow: hidden;
   isolation: isolate;
 }
 
+/* Gradient hairline border via mask trick */
 .chat-options-glass-menu::before,
 .mobile-more-glass-menu::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  pointer-events: none;
+  padding: 1.4px;
   background: linear-gradient(
-    125deg,
-    hsl(0 0% 100% / 0.12) 0%,
-    hsl(0 0% 100% / 0) 35%,
-    hsl(0 0% 100% / 0) 65%,
-    hsl(0 0% 100% / 0.06) 100%
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.2) 80%,
+    rgba(255, 255, 255, 0.5) 100%
   );
-  mix-blend-mode: overlay;
-  z-index: 0;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .chat-options-glass-menu > *,
 .mobile-more-glass-menu > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .chat-options-glass-item,
 .mobile-more-glass-item {
-  border-radius: 16px;
+  border-radius: 14px;
 }
 
 /* Force readable text inside the dark glass menu regardless of theme */
