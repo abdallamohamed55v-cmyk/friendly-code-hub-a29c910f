@@ -5195,13 +5195,12 @@ button[data-testid="mobile-composer-plus"]:hover {
 [data-radix-popper-content-wrapper] .chat-options-glass-menu {
   background: rgba(255, 255, 255, 0.01) !important;
   background-blend-mode: luminosity;
-  -webkit-backdrop-filter: blur(50px) saturate(1.4) !important;
-  backdrop-filter: blur(50px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(50px) !important;
+  backdrop-filter: blur(50px) !important;
   border: none !important;
   box-shadow:
     4px 4px 4px rgba(0, 0, 0, 0.05),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-    0 24px 60px -20px rgba(0, 0, 0, 0.6) !important;
+    inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
   overflow: hidden;
   isolation: isolate;
 }
