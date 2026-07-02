@@ -1,5 +1,6 @@
 
 import { useState, type ReactNode } from "react";
+import { Sparkles } from "lucide-react";
 import ComposerAttachments from "./ComposerAttachments";
 import { RemoteAiBusyBanner } from "./RemoteAiBusyBanner";
 import { MentionDropdown } from "./MentionDropdown";
@@ -7,7 +8,9 @@ import { ComposerMobileModeBar } from "./ComposerMobileModeBar";
 import { ComposerAnimatedInput } from "./ComposerAnimatedInput";
 import { DesktopModeChips } from "./DesktopModeChips";
 import { ActiveServicePill } from "./ActiveServicePill";
+import { useUserPlan } from "@/hooks/useUserPlan";
 import type { AttachedFile } from "../hooks/useAttachments";
+
 
 
 interface ChatComposerSectionProps {
@@ -118,6 +121,8 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
       <div className="max-w-3xl mx-auto space-y-2 pointer-events-auto">
         <RemoteAiBusyBanner remoteAiBusy={remoteAiBusy} />
 
+        <UpgradeBannerMobile isEmpty={isEmpty} navigate={navigate} />
+
         <div className="relative mx-auto w-full max-w-3xl">
           <div data-tour="composer" className="relative">
             {mentionQuery && (
@@ -185,3 +190,47 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
   );
 
 }
+
+/**
+ * Small mobile-only "Get more with Megsy Pro" pill shown above the composer
+ * for free users. Hidden on desktop, hidden for paid plans, and hidden while
+ * the empty-state hero owns the screen so it doesn't sit alone.
+ */
+function UpgradeBannerMobile({
+  isEmpty,
+  navigate,
+}: {
+  isEmpty: boolean;
+  navigate: (path: string) => void;
+}) {
+  const { isPaid, loading } = useUserPlan();
+  if (loading || isPaid) return null;
+  return (
+    <div className={`md:hidden ${isEmpty ? "" : ""}`}>
+      <div
+        className="flex items-center justify-between gap-3 rounded-full border px-3.5 py-2"
+        style={{
+          borderColor: "rgba(255,255,255,0.10)",
+          background: "rgba(20,20,22,0.72)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+        }}
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <Sparkles className="w-3.5 h-3.5 text-[#e97b5c] shrink-0" />
+          <span className="text-[13px] text-foreground/75 truncate">
+            Get more with Megsy Pro
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => navigate("/settings/billing")}
+          className="shrink-0 inline-flex items-center h-7 px-3 rounded-full text-[12.5px] font-semibold border border-white/20 text-foreground hover:bg-white/10 transition-colors"
+        >
+          Upgrade
+        </button>
+      </div>
+    </div>
+  );
+}
+

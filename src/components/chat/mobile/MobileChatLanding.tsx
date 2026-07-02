@@ -732,60 +732,56 @@ const MobileChatLanding = ({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="relative"
-                style={{ width: 56, height: 56 }}
+                style={{ width: 44, height: 44 }}
               >
-                <svg viewBox="0 0 100 100" width="56" height="56" aria-hidden>
+                <svg viewBox="0 0 100 100" width="44" height="44" aria-hidden>
                   <defs>
                     <linearGradient id="megsyStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#60a5fa" />
-                      <stop offset="50%" stopColor="#3b82f6" />
-                      <stop offset="100%" stopColor="#1d4ed8" />
+                      <stop offset="0%" stopColor="#f4a58a" />
+                      <stop offset="55%" stopColor="#e97b5c" />
+                      <stop offset="100%" stopColor="#c8624a" />
                     </linearGradient>
-                    <clipPath id="megsyStarClip">
-                      <path d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z" />
-                    </clipPath>
                   </defs>
                   {isCleopatra ? (
-                    <g clipPath="url(#megsyStarClip)">
-                      <rect x="0" y="0" width="100" height="34" fill="#CE1126" />
-                      <rect x="0" y="33" width="100" height="34" fill="#FFFFFF" />
-                      <rect x="0" y="66" width="100" height="34" fill="#000000" />
-                      <circle cx="50" cy="50" r="9" fill="#C9A84C" />
-                      <path
-                        d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z"
-                        fill="none"
-                        stroke="#C9A84C"
-                        strokeWidth="2"
-                      />
-                    </g>
+                    <path
+                      d="M50 6 L55 44 L94 50 L55 56 L50 94 L45 56 L6 50 L45 44 Z"
+                      fill="#C9A84C"
+                    />
                   ) : (
                     <path
-                      d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z"
+                      d="M50 6 L55 44 L94 50 L55 56 L50 94 L45 56 L6 50 L45 44 Z"
                       fill="url(#megsyStarGrad)"
                     />
                   )}
                 </svg>
-
               </motion.div>
             )}
 
             {!isReactive && (
               <motion.h1
-                key={landingHeadline}
+                key={firstName || "friend"}
                 dir={isCleopatra ? "rtl" : "ltr"}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
-                className="text-[28px] leading-[1.15] tracking-tight"
+                className="text-[30px] leading-[1.1] tracking-tight"
                 style={{
-                  fontWeight: 500,
+                  fontFamily:
+                    '"Instrument Serif", "Cormorant Garamond", "Times New Roman", serif',
+                  fontWeight: 400,
                   color: "hsl(var(--brand-parchment))",
-                  letterSpacing: "0",
+                  letterSpacing: "-0.005em",
                   textShadow: "0 2px 24px rgba(0,0,0,0.45)",
                 }}
               >
-                {landingHeadline}
+                {isCleopatra
+                  ? firstName
+                    ? `أهلاً بعودتك يا ${firstName}`
+                    : "أهلاً بعودتك"
+                  : firstName
+                    ? `Back at it, ${firstName}`
+                    : "Back at it"}
               </motion.h1>
             )}
 
