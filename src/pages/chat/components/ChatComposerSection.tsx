@@ -7,7 +7,9 @@ import { ComposerMobileModeBar } from "./ComposerMobileModeBar";
 import { ComposerAnimatedInput } from "./ComposerAnimatedInput";
 import { DesktopModeChips } from "./DesktopModeChips";
 import { ActiveServicePill } from "./ActiveServicePill";
+import { ComposerUpgradeBanner } from "./ComposerUpgradeBanner";
 import type { AttachedFile } from "../hooks/useAttachments";
+
 
 
 
