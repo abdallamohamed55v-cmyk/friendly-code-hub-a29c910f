@@ -204,19 +204,7 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
             )}
           </motion.div>
         </AnimatePresence>
-        {canExpand && (
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            aria-expanded={expanded}
-            className="ml-1 inline-flex items-center gap-1 text-[11.5px] font-medium text-muted-foreground/80 hover:text-foreground/90 transition"
-          >
-            <span>{ar ? "التفكير" : "Thinking"}</span>
-            <ChevronDown
-              className={`w-3 h-3 transition-transform ${expanded ? "rotate-180" : ""}`}
-            />
-          </button>
-        )}
+        {/* Thinking toggle removed — now shown as a post-response chip via PostThinkingChip. */}
       </div>
       <AnimatePresence initial={false}>
         {expanded && (
