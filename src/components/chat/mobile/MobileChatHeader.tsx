@@ -15,6 +15,7 @@ import {
   Pin,
   Star,
   FolderPlus,
+  Send,
   Trash2,
 } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
@@ -361,7 +362,7 @@ export default function MobileChatHeader({
                     <p className="px-1 pb-2 text-right text-[11px] text-muted-foreground">
                       Add someone to this chat
                     </p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col gap-2">
                       <input
                         dir="ltr"
                         value={inlineInvite.email}
@@ -370,18 +371,24 @@ export default function MobileChatHeader({
                         onKeyDown={(e) => {
                           if (e.key === "Enter") inlineInvite.onSend();
                         }}
-                        className="flex-1 h-9 rounded-xl bg-foreground/[0.06] border border-foreground/10 px-3 text-[13px] text-foreground outline-none focus:border-foreground/25"
+                        className="w-full h-10 rounded-xl bg-foreground/[0.06] border border-foreground/10 px-3 text-[13px] text-foreground outline-none focus:border-foreground/25"
                       />
                       <button
                         type="button"
                         onClick={inlineInvite.onSend}
                         disabled={inlineInvite.loading || !inlineInvite.email.trim()}
-                        className="h-9 min-w-[72px] px-4 rounded-xl text-[12.5px] font-semibold bg-white text-black shadow-sm active:opacity-90 disabled:opacity-50 inline-flex items-center justify-center whitespace-nowrap shrink-0"
+                        className="w-full h-10 rounded-xl text-[13px] font-semibold bg-white text-black shadow-sm active:opacity-90 disabled:opacity-50 inline-flex items-center justify-center gap-2 whitespace-nowrap"
                       >
                         {inlineInvite.loading ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Sending…
+                          </>
                         ) : (
-                          "Invite"
+                          <>
+                            <Send className="w-4 h-4" />
+                            Send invite
+                          </>
                         )}
                       </button>
                     </div>
