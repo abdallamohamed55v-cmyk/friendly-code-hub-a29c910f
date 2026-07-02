@@ -24,12 +24,12 @@ import {
 
 const menuContainerVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.035, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.012, delayChildren: 0.02 } },
 };
 
 const menuItemVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, damping: 28, stiffness: 300 } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.16, ease: "easeOut" as const } },
 };
 
 interface Props {
@@ -83,7 +83,7 @@ export default function ComposerModelMenu({
   const [pos, setPos] = useState<
     { left: number; width: number; top?: number; bottom?: number; maxHeight: number } | null
   >(null);
-  const MENU_W = 320;
+  const MENU_W = typeof window !== "undefined" && window.innerWidth < 640 ? 260 : 300;
 
   useLayoutEffect(() => {
     if (!open || !btnRef.current) return;
@@ -91,18 +91,21 @@ export default function ComposerModelMenu({
       const r = btnRef.current!.getBoundingClientRect();
       const vw = window.innerWidth;
       const vh = window.innerHeight;
+      const isMobile = vw < 640;
+      const menuW = isMobile ? Math.min(260, vw - 24) : Math.min(MENU_W, vw - 24);
       let left = r.left;
-      if (align === "end") left = r.right - MENU_W;
-      else if (align === "center") left = r.left + (r.width - MENU_W) / 2;
-      left = Math.max(12, Math.min(vw - MENU_W - 12, left));
-      const width = Math.min(MENU_W, vw - 24);
+      if (align === "end") left = r.right - menuW;
+      else if (align === "center") left = r.left + (r.width - menuW) / 2;
+      left = Math.max(12, Math.min(vw - menuW - 12, left));
+      const width = menuW;
+      const cap = isMobile ? Math.min(vh * 0.55, 420) : Math.min(vh * 0.7, 560);
       if (side === "top") {
         const bottom = vh - r.top + 8;
-        const maxHeight = Math.max(220, r.top - 24);
+        const maxHeight = Math.min(cap, Math.max(220, r.top - 24));
         setPos({ left, width, bottom, maxHeight });
       } else {
         const top = r.bottom + 8;
-        const maxHeight = Math.max(220, vh - top - 24);
+        const maxHeight = Math.min(cap, Math.max(220, vh - top - 24));
         setPos({ left, width, top, maxHeight });
       }
     };
