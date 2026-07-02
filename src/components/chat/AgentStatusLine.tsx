@@ -35,6 +35,8 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
   const [elapsed, setElapsed] = useState(0);
   const [lastDoneTool, setLastDoneTool] = useState<ToolActivity | null>(null);
   const [doneShownAt, setDoneShownAt] = useState<number>(0);
+  const [expanded, setExpanded] = useState(false);
+  const [thoughtLog, setThoughtLog] = useState<string[]>([]);
 
   useEffect(() => {
     const start = Date.now();
