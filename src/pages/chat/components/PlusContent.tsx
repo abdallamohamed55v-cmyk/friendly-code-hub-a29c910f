@@ -99,10 +99,10 @@ export interface PlusContentProps {
 }
 
 const fadeProps = (x: number) => ({
-  initial: { opacity: 0, x },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x },
-  transition: { duration: 0.18 },
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.1 },
 });
 
 const mobileFont = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif";
