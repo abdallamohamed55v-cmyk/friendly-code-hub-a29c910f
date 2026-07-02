@@ -15,6 +15,7 @@ import {
   Pin,
   Star,
   FolderPlus,
+  Send,
   Trash2,
 } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
