@@ -99,33 +99,8 @@ export function ComposerInlineSlot(props: ComposerInlineSlotProps) {
           setResearchDepthOpen={setResearchDepthOpen}
         />
       ) : null}
-      <UpgradeInlinePill />
     </>
   );
 }
 
-function UpgradeInlinePill() {
-  const { isPaid, loading } = useUserPlan();
-  if (loading || isPaid) return null;
-  return (
-    <Link
-      to="/pricing"
-      aria-label="Upgrade to Megsy Pro"
-      className="shrink-0 inline-flex items-center gap-2 h-9 pl-2.5 pr-3.5 rounded-full text-[13px] font-semibold transition-colors active:scale-[0.97]"
-      style={{
-        background: "#2A2520",
-        border: "1px solid #3A332C",
-        color: "#D97757",
-      }}
-    >
-      <span
-        className="inline-flex items-center justify-center w-5 h-5 rounded-full"
-        style={{ background: "rgba(217, 119, 87, 0.18)" }}
-      >
-        <Zap className="w-3 h-3" fill="#D97757" stroke="#D97757" />
-      </span>
-      <span style={{ color: "#E8DDD4" }}>Get 50% off Pro</span>
-    </Link>
-  );
-}
 
