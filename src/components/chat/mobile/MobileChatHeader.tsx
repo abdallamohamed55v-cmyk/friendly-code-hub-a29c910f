@@ -509,7 +509,7 @@ export default function MobileChatHeader({
                         type="button"
                         onClick={confirmDelete}
                         disabled={isDeleting}
-                        className="flex-1 rounded-xl px-3 py-2 text-[12px] font-semibold bg-destructive text-destructive-foreground transition-opacity active:opacity-90 disabled:opacity-50 flex items-center justify-center gap-1.5"
+                        className="flex-1 rounded-xl px-3 py-2 text-[12px] font-semibold bg-destructive text-white transition-opacity active:opacity-90 disabled:opacity-50 flex items-center justify-center gap-1.5"
                       >
                         {isDeleting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                         Delete
