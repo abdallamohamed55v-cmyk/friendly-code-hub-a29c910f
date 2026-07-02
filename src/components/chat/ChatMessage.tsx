@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, useRef, useEffect, memo, lazy, Suspense } from "react";
-import PostThinkingChip from "./PostThinkingChip";
 import { Link } from "react-router-dom";
 import { GlassSheet, GlassSheetContent } from "@/components/ui/glass-sheet";
 import {
@@ -747,23 +746,6 @@ const ChatMessage = ({
   hideActions,
 }: ChatMessageProps) => {
   const [copied, setCopied] = useState(false);
-  const thinkingStartRef = useRef<number | null>(null);
-  const [thinkingDurationMs, setThinkingDurationMs] = useState<number>(0);
-  useEffect(() => {
-    if (isThinking && thinkingStartRef.current == null) {
-      thinkingStartRef.current = Date.now();
-    } else if (!isThinking && thinkingStartRef.current != null) {
-      setThinkingDurationMs(Date.now() - thinkingStartRef.current);
-      thinkingStartRef.current = null;
-    }
-  }, [isThinking]);
-  const thinkingSeconds = Math.max(1, Math.round(thinkingDurationMs / 1000));
-  const showThinkingChip =
-    role === "assistant" &&
-    !isStreaming &&
-    !isThinking &&
-    content.trim().length > 0 &&
-    thinkingDurationMs > 0;
   const [slidesInfoOpen, setSlidesInfoOpen] = useState(true);
   const [researchDraftOpen, setResearchDraftOpen] = useState(true);
   const [summaryOpen, setSummaryOpen] = useState(false);
@@ -1188,12 +1170,6 @@ const ChatMessage = ({
           </Suspense>
         ) : (
           <>
-            {showThinkingChip && (
-              <PostThinkingChip
-                seconds={thinkingSeconds}
-                isArabic={/[\u0600-\u06ff]/.test(content)}
-              />
-            )}
             {Array.isArray(videos) && videos.length > 0 && (
               <div className="flex flex-col gap-3 mb-3">
                 {videos
