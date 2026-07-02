@@ -730,7 +730,7 @@ const MobileChatLanding = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeOut", delay: 0.08 }}
-                className="text-[30px]"
+                className="text-[22px]"
                 style={{
                   fontFamily:
                     '"Source Serif 4", "Source Serif Pro", "Tiempos Headline", Georgia, serif',

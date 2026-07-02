@@ -569,9 +569,10 @@ const AnimatedInput = ({
               </motion.button>
             )}
 
+            {inlineSlot}
+
             <div className="flex-1" />
 
-            {inlineSlot}
 
             <AnimatePresence mode="popLayout" initial={false}>
               {isLoading ? (

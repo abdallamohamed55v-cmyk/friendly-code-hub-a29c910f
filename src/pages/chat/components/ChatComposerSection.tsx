@@ -7,7 +7,9 @@ import { ComposerMobileModeBar } from "./ComposerMobileModeBar";
 import { ComposerAnimatedInput } from "./ComposerAnimatedInput";
 import { DesktopModeChips } from "./DesktopModeChips";
 import { ActiveServicePill } from "./ActiveServicePill";
+import { ComposerUpgradeBanner } from "./ComposerUpgradeBanner";
 import type { AttachedFile } from "../hooks/useAttachments";
+
 
 
 
@@ -155,8 +157,9 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
               onToggleModes={() => setModesShown((v) => !v)}
               chatContext
               activeServiceHeader={
-                attachedFiles.length > 0 || hasActiveService ? (
+                (isEmpty || attachedFiles.length > 0 || hasActiveService) ? (
                   <>
+                    {isEmpty ? <ComposerUpgradeBanner /> : null}
                     <ComposerAttachments files={attachedFiles} onRemove={removeAttachment} />
                     {hasActiveService ? (
                       <ActiveServicePill
@@ -174,6 +177,7 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
                   </>
                 ) : null
               }
+
               />
               </div>
             </div>
