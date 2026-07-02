@@ -1,12 +1,10 @@
-import { Zap } from "lucide-react";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ComposerModelMenu from "../ComposerModelMenu";
 import SlidesTemplateButton from "./SlidesTemplateButton";
 import ResearchDepthDropdown from "./ResearchDepthDropdown";
 import type { ChatMode } from "../chatConstants";
 import type { AgentDef } from "@/lib/agentRegistry";
-import { useUserPlan } from "@/hooks/useUserPlan";
+
 
 interface ComposerInlineSlotProps {
   isMobileViewport: boolean;
