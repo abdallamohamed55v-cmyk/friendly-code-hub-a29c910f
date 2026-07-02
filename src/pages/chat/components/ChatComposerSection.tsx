@@ -1,5 +1,6 @@
 
 import { useState, type ReactNode } from "react";
+import { Sparkles } from "lucide-react";
 import ComposerAttachments from "./ComposerAttachments";
 import { RemoteAiBusyBanner } from "./RemoteAiBusyBanner";
 import { MentionDropdown } from "./MentionDropdown";
@@ -7,7 +8,9 @@ import { ComposerMobileModeBar } from "./ComposerMobileModeBar";
 import { ComposerAnimatedInput } from "./ComposerAnimatedInput";
 import { DesktopModeChips } from "./DesktopModeChips";
 import { ActiveServicePill } from "./ActiveServicePill";
+import { useUserPlan } from "@/hooks/useUserPlan";
 import type { AttachedFile } from "../hooks/useAttachments";
+
 
 
 interface ChatComposerSectionProps {
