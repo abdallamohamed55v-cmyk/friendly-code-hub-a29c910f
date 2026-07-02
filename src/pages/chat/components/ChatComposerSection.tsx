@@ -206,30 +206,32 @@ function UpgradeBannerMobile({
   const { isPaid, loading } = useUserPlan();
   if (loading || isPaid) return null;
   return (
-    <div className={`md:hidden ${isEmpty ? "" : ""}`}>
-      <div
-        className="flex items-center justify-between gap-3 rounded-full border px-3.5 py-2"
+    <div className="md:hidden px-1">
+      <button
+        type="button"
+        onClick={() => navigate("/settings/billing")}
+        className="w-full flex items-center gap-2.5 rounded-[12px] px-4 min-h-[44px] transition-colors active:scale-[0.995]"
         style={{
-          borderColor: "rgba(255,255,255,0.10)",
-          background: "rgba(20,20,22,0.72)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
+          background: "#2A2520",
+          border: "1px solid #3A332C",
         }}
       >
-        <div className="flex items-center gap-2 min-w-0">
-          <Sparkles className="w-3.5 h-3.5 text-[#e97b5c] shrink-0" />
-          <span className="text-[13px] text-foreground/75 truncate">
-            Get more with Megsy Pro
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={() => navigate("/settings/billing")}
-          className="shrink-0 inline-flex items-center h-7 px-3 rounded-full text-[12.5px] font-semibold border border-white/20 text-foreground hover:bg-white/10 transition-colors"
+        <Zap className="w-4 h-4 shrink-0" style={{ color: "#D97757" }} fill="#D97757" />
+        <span
+          className="flex-1 text-left truncate"
+          style={{
+            fontFamily:
+              '"Styrene A", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+            fontSize: 14,
+            fontWeight: 500,
+            color: "#E8E0D2",
+            letterSpacing: "-0.1px",
+          }}
         >
-          Upgrade
-        </button>
-      </div>
+          Upgrade to Megsy Pro for more messages
+        </span>
+        <ChevronRight className="w-4 h-4 shrink-0" style={{ color: "#8A7E72" }} />
+      </button>
     </div>
   );
 }
