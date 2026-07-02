@@ -17,6 +17,7 @@ import {
   FolderPlus,
   Send,
   Trash2,
+  MessageSquarePlus,
 } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
 
