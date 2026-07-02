@@ -165,8 +165,8 @@ export default function MobileChatHeader({
 
   const items: Array<{ icon: typeof Share2; label: string; onClick: () => void }> = [
     { icon: Share2, label: "Share", onClick: goShare },
-    { icon: FolderPlus, label: "Add to project", onClick: goInvite },
-    { icon: Star, label: isPinned ? "Unstar" : "Star", onClick: () => runAndClose(onTogglePin) },
+    { icon: UserPlus, label: "Invite people", onClick: goInvite },
+    { icon: Pin, label: isPinned ? "Unpin chat" : "Pin chat", onClick: () => runAndClose(onTogglePin) },
     { icon: Pencil, label: "Rename", onClick: goRename },
   ];
 
@@ -250,9 +250,10 @@ export default function MobileChatHeader({
               transition={{ type: "spring", stiffness: 380, damping: 28, mass: 0.7 }}
               style={{
                 top: "calc(env(safe-area-inset-top, 0px) + 52px)",
+                insetInlineEnd: "12px",
                 transformOrigin: "top right",
               }}
-              className="mobile-more-glass-menu md:hidden fixed right-3 z-50 w-[260px] rounded-ios-lg overflow-hidden"
+              className="mobile-more-glass-menu md:hidden fixed z-50 w-[260px] rounded-ios-lg overflow-hidden"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {menuView === "main" && (
