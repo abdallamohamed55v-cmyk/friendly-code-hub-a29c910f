@@ -186,7 +186,7 @@ export default function MobileChatHeader({
           onClick={onOpenSidebar}
           aria-label="Open menu"
           data-testid="mobile-open-sidebar"
-          className="w-11 h-11 rounded-2xl flex items-center justify-center text-foreground bg-transparent border-0 active:scale-95 transition"
+          className="liquid-glass-button w-10 h-10 rounded-full flex items-center justify-center text-foreground active:scale-95 transition"
         >
           <MegsySidebarToggleIcon />
         </button>
