@@ -1620,8 +1620,8 @@ const ChatPage = () => {
         </aside>
 
         <div
-          className="theme-fixed chat-surface-dark flex-1 flex flex-col min-w-0 relative overflow-hidden bg-transparent text-foreground md:!text-[hsl(var(--brand-parchment))]"
-          style={{ backgroundColor: "transparent" }}
+          className="theme-fixed chat-surface-dark flex-1 flex flex-col min-w-0 relative overflow-hidden bg-black text-foreground md:!text-[hsl(var(--brand-parchment))]"
+          style={{ backgroundColor: "#000" }}
         >
           {/* Background video shown before the first message — desktop only */}
           {showDesktopEmptyVideo && (
