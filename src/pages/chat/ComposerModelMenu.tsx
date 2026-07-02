@@ -211,9 +211,7 @@ export default function ComposerModelMenu({
                     ...(pos.top !== undefined ? { top: pos.top } : {}),
                     ...(pos.bottom !== undefined ? { bottom: pos.bottom } : {}),
                     maxHeight: pos.maxHeight,
-                    background: "rgba(0, 0, 0, 0.32)",
-                    backdropFilter: "blur(22px) saturate(160%)",
-                    WebkitBackdropFilter: "blur(22px) saturate(160%)",
+                    background: "hsl(var(--background))",
                     boxShadow:
                       "inset 0 1px 1px rgba(255,255,255,0.16), 0 0 0 1px rgba(255,255,255,0.18), 0 22px 60px -18px rgba(0,0,0,0.7)",
                   }}
