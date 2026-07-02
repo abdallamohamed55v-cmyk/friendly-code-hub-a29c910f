@@ -32,8 +32,8 @@ export default function ModelSettingsBar({ mediaMode, modelMenuProps, onSettings
           <ComposerModelMenu
             {...wrappedModelMenuProps}
             variant="segment"
-            side="bottom"
-            align="start"
+            side={wrappedModelMenuProps.side ?? "top"}
+            align={wrappedModelMenuProps.align ?? "start"}
           />
         </div>
         <button
