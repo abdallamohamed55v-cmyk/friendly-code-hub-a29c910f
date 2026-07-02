@@ -1188,6 +1188,12 @@ const ChatMessage = ({
           </Suspense>
         ) : (
           <>
+            {showThinkingChip && (
+              <PostThinkingChip
+                seconds={thinkingSeconds}
+                isArabic={/[\u0600-\u06ff]/.test(content)}
+              />
+            )}
             {Array.isArray(videos) && videos.length > 0 && (
               <div className="flex flex-col gap-3 mb-3">
                 {videos
