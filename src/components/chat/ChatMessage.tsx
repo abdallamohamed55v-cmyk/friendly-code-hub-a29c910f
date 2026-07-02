@@ -1069,6 +1069,7 @@ const ChatMessage = ({
                     overlayClassName="bg-black/40 backdrop-blur-[2px]"
                     className="md:hidden border-t border-foreground/15"
                     contentClassName="px-2 pb-[calc(env(safe-area-inset-bottom)+1rem)]"
+                    dir="ltr"
                     style={{
                       background: "hsl(var(--background) / 0.72)",
                       backdropFilter: "blur(28px) saturate(180%) brightness(1.05)",
@@ -1081,24 +1082,24 @@ const ChatMessage = ({
                         await handleCopy();
                         closeMenu();
                       }}
-                      className="w-full flex items-center justify-between gap-4 px-4 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
+                      className="w-full flex items-center justify-between gap-4 px-5 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
                       role="menuitem"
                     >
-                      <span className="text-[16px] font-medium">Copy</span>
-                      <Copy className="w-5 h-5" strokeWidth={1.8} />
+                      <span className="text-[16px] font-medium text-left">Copy</span>
+                      <Copy className="w-5 h-5 shrink-0" strokeWidth={1.8} />
                     </button>
-                    <div className="h-px bg-foreground/10 mx-3" />
+                    <div className="h-px bg-foreground/10 mx-4" />
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleEditAction();
                         closeMenu();
                       }}
-                      className="w-full flex items-center justify-between gap-4 px-4 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
+                      className="w-full flex items-center justify-between gap-4 px-5 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
                       role="menuitem"
                     >
-                      <span className="text-[16px] font-medium">Edit</span>
-                      <Pencil className="w-5 h-5" strokeWidth={1.8} />
+                      <span className="text-[16px] font-medium text-left">Edit</span>
+                      <Pencil className="w-5 h-5 shrink-0" strokeWidth={1.8} />
                     </button>
                   </GlassSheetContent>
                 </GlassSheet>
