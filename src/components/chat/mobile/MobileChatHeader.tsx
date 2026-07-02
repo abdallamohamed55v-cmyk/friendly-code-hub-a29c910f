@@ -219,7 +219,11 @@ export default function MobileChatHeader({
         ) : null}
 
         {hasConversation && (
-          <div className="liquid-glass-strong flex items-center h-10 rounded-full overflow-hidden">
+          <div
+            className={`liquid-glass-strong flex items-center h-10 rounded-full overflow-hidden transition-opacity duration-150 ${
+              open ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
             <button
               type="button"
               onClick={onNewChat}
