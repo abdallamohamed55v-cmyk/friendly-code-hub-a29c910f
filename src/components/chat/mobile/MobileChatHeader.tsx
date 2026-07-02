@@ -17,6 +17,7 @@ import {
   FolderPlus,
   Send,
   Trash2,
+  MessageSquarePlus,
 } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
 
@@ -77,30 +78,11 @@ const MegsySidebarToggleIcon = () => (
 );
 
 const NewChatComposeIcon = () => (
-  // Compose / new-chat icon: rounded square with a pen writing inside
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+  <MessageSquarePlus
+    className="w-[20px] h-[20px] text-foreground"
+    strokeWidth={1.8}
     aria-hidden="true"
-    className="h-[20px] w-[20px]"
-  >
-    <path
-      d="M4 20h4.586a1 1 0 0 0 .707-.293l9.9-9.9a1 1 0 0 0 0-1.414l-3.586-3.586a1 1 0 0 0-1.414 0l-9.9 9.9A1 1 0 0 0 4 15.414V20Z"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinejoin="round"
-    />
-    <path
-      d="m13.5 6.5 4 4"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-    />
-    <circle cx="18.5" cy="5.5" r="1.6" fill="currentColor" />
-  </svg>
+  />
 );
 
 export interface MobileChatHeaderProps {
