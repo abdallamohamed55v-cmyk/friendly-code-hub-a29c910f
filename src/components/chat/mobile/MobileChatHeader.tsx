@@ -165,8 +165,8 @@ export default function MobileChatHeader({
 
   const items: Array<{ icon: typeof Share2; label: string; onClick: () => void }> = [
     { icon: Share2, label: "Share", onClick: goShare },
-    { icon: FolderPlus, label: "Add to project", onClick: goInvite },
-    { icon: Star, label: isPinned ? "Unstar" : "Star", onClick: () => runAndClose(onTogglePin) },
+    { icon: UserPlus, label: "Invite people", onClick: goInvite },
+    { icon: Pin, label: isPinned ? "Unpin chat" : "Pin chat", onClick: () => runAndClose(onTogglePin) },
     { icon: Pencil, label: "Rename", onClick: goRename },
   ];
 
