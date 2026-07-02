@@ -201,7 +201,7 @@ export default function MobileChatHeader({
         ) : null}
 
         {hasConversation && (
-          <div className="liquid-glass-button flex items-center h-10 rounded-full overflow-hidden">
+          <div className="liquid-glass-strong flex items-center h-10 rounded-full overflow-hidden">
             <button
               type="button"
               onClick={onNewChat}
@@ -209,9 +209,8 @@ export default function MobileChatHeader({
               data-testid="mobile-new-chat"
               className="h-10 w-10 inline-flex items-center justify-center text-foreground active:scale-95 transition"
             >
-              <Plus className="w-[20px] h-[20px]" strokeWidth={2} />
+              <NewChatComposeIcon />
             </button>
-            <span className="h-5 w-px bg-foreground/15" />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
