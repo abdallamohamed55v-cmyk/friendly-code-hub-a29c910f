@@ -25,7 +25,8 @@ export default function MobileServicePanel({ label, Icon, onClose, children, hea
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 2 }}
       transition={SPRING}
-      className="md:hidden mx-3 mb-2"
+      className="md:hidden mx-3 mb-2 relative z-30 rounded-2xl border border-foreground/10 shadow-xl p-2"
+      style={{ background: "hsl(var(--background))" }}
     >
       <div
         className="flex h-7 w-full items-center justify-between gap-2 px-2 text-[12px] font-semibold uppercase tracking-[0.08em]"
