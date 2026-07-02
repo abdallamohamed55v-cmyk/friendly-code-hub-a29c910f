@@ -1,4 +1,5 @@
-import { useState, useCallback, useMemo, useRef, memo, lazy, Suspense } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect, memo, lazy, Suspense } from "react";
+import PostThinkingChip from "./PostThinkingChip";
 import { Link } from "react-router-dom";
 import { GlassSheet, GlassSheetContent } from "@/components/ui/glass-sheet";
 import {
