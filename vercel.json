@@ -3,10 +3,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/((?!api/|assets/|.*\\.(?:png|jpg|jpeg|gif|webp|avif|svg|ico|mp4|webm|mov|mp3|wav|ogg|woff|woff2|ttf|otf|json|xml|txt|webmanifest|map|js|css)).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
