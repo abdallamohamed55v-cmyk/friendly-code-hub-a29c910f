@@ -24,12 +24,12 @@ import {
 
 const menuContainerVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.035, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.012, delayChildren: 0.02 } },
 };
 
 const menuItemVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, damping: 28, stiffness: 300 } },
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.16, ease: "easeOut" as const } },
 };
 
 interface Props {
