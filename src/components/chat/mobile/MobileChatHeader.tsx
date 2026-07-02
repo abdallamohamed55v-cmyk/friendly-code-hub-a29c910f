@@ -76,6 +76,33 @@ const MegsySidebarToggleIcon = () => (
   </svg>
 );
 
+const NewChatComposeIcon = () => (
+  // Compose / new-chat icon: rounded square with a pen writing inside
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    className="h-[20px] w-[20px]"
+  >
+    <path
+      d="M4 20h4.586a1 1 0 0 0 .707-.293l9.9-9.9a1 1 0 0 0 0-1.414l-3.586-3.586a1 1 0 0 0-1.414 0l-9.9 9.9A1 1 0 0 0 4 15.414V20Z"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinejoin="round"
+    />
+    <path
+      d="m13.5 6.5 4 4"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+    />
+    <circle cx="18.5" cy="5.5" r="1.6" fill="currentColor" />
+  </svg>
+);
+
 export interface MobileChatHeaderProps {
   title?: string;
   hasConversation: boolean;
@@ -201,7 +228,7 @@ export default function MobileChatHeader({
         ) : null}
 
         {hasConversation && (
-          <div className="liquid-glass-button flex items-center h-10 rounded-full overflow-hidden">
+          <div className="liquid-glass-strong flex items-center h-10 rounded-full overflow-hidden">
             <button
               type="button"
               onClick={onNewChat}
@@ -209,9 +236,8 @@ export default function MobileChatHeader({
               data-testid="mobile-new-chat"
               className="h-10 w-10 inline-flex items-center justify-center text-foreground active:scale-95 transition"
             >
-              <Plus className="w-[20px] h-[20px]" strokeWidth={2} />
+              <NewChatComposeIcon />
             </button>
-            <span className="h-5 w-px bg-foreground/15" />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
