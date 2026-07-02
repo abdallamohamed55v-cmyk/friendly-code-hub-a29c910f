@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/glass-sheet";
 import { MEGSY_TYPING_PHRASES, pickMegsyPhrase } from "./megsyPhrases";
 import MobileOnboardingTour from "./MobileOnboardingTour";
+import MegsyStar from "@/components/files/MegsyStar";
 
 export type LandingChipId = "image" | "video" | "website";
 
