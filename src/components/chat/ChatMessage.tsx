@@ -754,6 +754,7 @@ const ChatMessage = ({
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const userBubbleRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
@@ -763,6 +764,24 @@ const ChatMessage = ({
   };
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  useEffect(() => {
+    if (!menuOpen || role !== "user") return;
+
+    const closeWhenOutsideMenu = (event: PointerEvent | TouchEvent) => {
+      const target = event.target as Node | null;
+      if (target && mobileMenuRef.current?.contains(target)) return;
+      setMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeWhenOutsideMenu, true);
+    document.addEventListener("touchstart", closeWhenOutsideMenu, true);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeWhenOutsideMenu, true);
+      document.removeEventListener("touchstart", closeWhenOutsideMenu, true);
+    };
+  }, [menuOpen, role]);
 
   const clearLongPress = useCallback(() => {
     if (longPressRef.current) {
@@ -1074,6 +1093,7 @@ const ChatMessage = ({
                       aria-hidden
                     />
                     <div
+                      ref={mobileMenuRef}
                       role="menu"
                       dir="ltr"
                       className="md:hidden liquid-glass-strong absolute right-0 z-50 min-w-[180px] rounded-[22px] p-1.5 animate-in fade-in-0 zoom-in-95 duration-150"
