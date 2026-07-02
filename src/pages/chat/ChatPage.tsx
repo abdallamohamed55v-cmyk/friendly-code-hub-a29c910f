@@ -2,7 +2,7 @@
 import SEOHead from "@/components/common/SEOHead";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useMediaUpload } from "@/hooks/useMediaUpload";
-import { useState, useRef, useEffect, useCallback, type UIEvent } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -103,7 +103,6 @@ import { ChatMessagesArea } from "./components/ChatMessagesArea";
 import { ChatComposerSection } from "./components/ChatComposerSection";
 import ChatAurora from "@/components/chat/ChatAurora";
 import { DesktopGreeting } from "./components/DesktopGreeting";
-import { GlassSheet, GlassSheetContent } from "@/components/ui/glass-sheet";
 import { usePromoBanner } from "@/components/promo/usePromoBanner";
 // Desktop chat background video is loaded directly from CDN below
 import { getAgentById } from "@/lib/agentRegistry";
@@ -111,8 +110,6 @@ import { pathForZone } from "@/lib/zoneRouting";
 
 import { type Message, type ChatMode } from "./chatConstants";
 import { DOCS_STATUS_FALLBACKS } from "./chatUtils";
-
-const MOBILE_PLUS_SNAP_POINTS = [0.7, 0.96];
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -162,11 +159,8 @@ const ChatPage = () => {
   const [sidebarHovered, setSidebarHovered] = useState(false);
   const sidebarHoverTimer = useRef<number | null>(null);
   const isSidebarExpanded = !sidebarCollapsed || sidebarHovered;
-  const { plusMenuOpen, setPlusMenuOpen, plusExpanded, setPlusExpanded, plusView, setPlusView } =
+  const { plusMenuOpen, setPlusMenuOpen, plusView, setPlusView } =
     usePlusMenu();
-  const [plusSnapPoint, setPlusSnapPoint] = useState<number | string | null>(
-    MOBILE_PLUS_SNAP_POINTS[0],
-  );
   const isMobileViewport = useIsMobile();
   // Mobile mode bar visibility. Visible by default on a fresh chat; auto-hides
   // the moment the first user message is sent so the transcript has room.
@@ -456,109 +450,15 @@ const ChatPage = () => {
     setMegsyTier,
   });
 
-  const plusSheetScrollRef = useRef<HTMLDivElement | null>(null);
-
   // Reset plus menu sub-view whenever it closes
   useEffect(() => {
     if (!plusMenuOpen) {
       setPlusView("main");
-      setPlusExpanded(false);
-    } else {
-      setPlusSnapPoint(MOBILE_PLUS_SNAP_POINTS[0]);
     }
   }, [plusMenuOpen]);
 
   // One-time semantic backfill for legacy data (no-op after the first run).
   useEmbedBackfill();
-
-  // Reset scroll to top whenever the active sub-view changes so the header is visible
-  useEffect(() => {
-    if (plusSheetScrollRef.current) {
-      plusSheetScrollRef.current.scrollTop = 0;
-    }
-  }, [plusView, plusMenuOpen]);
-
-  const handlePlusSheetScroll = useCallback(
-    (e: UIEvent<HTMLDivElement>) => {
-      if (!isMobileViewport || plusSnapPoint === MOBILE_PLUS_SNAP_POINTS[1]) return;
-      if (e.currentTarget.scrollTop > 10) setPlusSnapPoint(MOBILE_PLUS_SNAP_POINTS[1]);
-    },
-    [isMobileViewport, plusSnapPoint],
-  );
-
-  // Scroll-driven drag-to-dismiss: when at top and the user keeps pulling
-  // down, translate the sheet down (half → quarter → gone). Release past a
-  // threshold closes it; otherwise it springs back.
-  const plusDragState = useRef<{ startY: number; dragging: boolean; delta: number }>({
-    startY: 0,
-    dragging: false,
-    delta: 0,
-  });
-  const getPlusSheetEl = (target: EventTarget | null): HTMLElement | null => {
-    const node = target as HTMLElement | null;
-    return (node?.closest?.(".gemini-mobile-plus-sheet") as HTMLElement | null) ?? null;
-  };
-  const handlePlusTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    plusDragState.current = {
-      startY: e.touches[0].clientY,
-      dragging: e.currentTarget.scrollTop <= 0,
-      delta: 0,
-    };
-  }, []);
-  const handlePlusTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    const s = plusDragState.current;
-    if (e.currentTarget.scrollTop > 0) {
-      s.dragging = false;
-      return;
-    }
-    const dy = e.touches[0].clientY - s.startY;
-    if (!s.dragging) {
-      if (dy > 0) {
-        s.dragging = true;
-        s.startY = e.touches[0].clientY;
-      } else {
-        return;
-      }
-    }
-    const el = getPlusSheetEl(e.currentTarget);
-    if (!el) return;
-    if (dy <= 0) {
-      s.delta = 0;
-      el.style.transform = "";
-      el.style.transition = "";
-      return;
-    }
-    s.delta = dy;
-    el.style.transition = "none";
-    el.style.transform = `translate3d(0, ${dy}px, 0)`;
-  }, []);
-  const handlePlusTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      const s = plusDragState.current;
-      const el = getPlusSheetEl(e.currentTarget);
-      const delta = s.delta;
-      s.dragging = false;
-      s.delta = 0;
-      if (!el || delta <= 0) return;
-      el.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
-      const h = el.getBoundingClientRect().height || window.innerHeight;
-      if (delta > h * 0.28) {
-        el.style.transform = `translate3d(0, ${h}px, 0)`;
-        window.setTimeout(() => {
-          el.style.transform = "";
-          el.style.transition = "";
-          setPlusMenuOpen(false);
-        }, 220);
-      } else {
-        el.style.transform = "translate3d(0, 0, 0)";
-        window.setTimeout(() => {
-          el.style.transform = "";
-          el.style.transition = "";
-        }, 320);
-      }
-    },
-    [setPlusMenuOpen],
-  );
 
   // Close the plus-menu on any outside click (desktop popover + mobile sheet).
   useOutsideClickToClose({
@@ -1468,15 +1368,53 @@ const ChatPage = () => {
     />
   );
 
-  // Desktop-only popover. The mobile bottom sheet is rendered ONCE globally
-  // (see <GlassSheet> near the end of the tree) so it never double-mounts.
+  // Desktop popover + mobile anchored popover. Mobile opens from the + button
+  // itself instead of a full draggable sheet to avoid the old snap/blur lag.
   const composerRef = useRef<HTMLDivElement>(null);
   const renderPlusMenu = () => {
-    // Mobile uses the GlassSheet below; skip the desktop popover entirely
-    // on small viewports — rendering both was the source of the "+" lag.
-    if (isMobileViewport) return null;
     const openUp = hasConversation || messages.length > 0;
     const r = composerRef.current?.getBoundingClientRect();
+    if (isMobileViewport) {
+      const triggerRect = document
+        .querySelector<HTMLElement>("[data-plus-trigger]")
+        ?.getBoundingClientRect();
+      const anchor = triggerRect ?? r;
+      const menuWidth = Math.min(360, window.innerWidth - 24);
+      const left = anchor
+        ? Math.max(12, Math.min(window.innerWidth - menuWidth - 12, anchor.left - 2))
+        : 12;
+      const bottom = anchor ? window.innerHeight - anchor.top + 8 : 96;
+      const maxMenuHeight = anchor ? Math.max(260, Math.min(620, anchor.top - 24)) : 560;
+
+      return createPortal(
+        <>
+          <div
+            className="md:hidden fixed inset-0 z-[55] bg-transparent"
+            onClick={() => setPlusMenuOpen(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 6, scale: 0.96 }}
+            transition={{ duration: 0.13, ease: [0.22, 1, 0.36, 1] }}
+            data-plus-menu
+            onClick={(e) => e.stopPropagation()}
+            className="mobile-plus-glass-menu md:hidden fixed z-overlay flex flex-col overflow-y-auto overscroll-contain rounded-[28px] p-3"
+            style={{
+              left,
+              bottom,
+              width: menuWidth,
+              maxHeight: maxMenuHeight,
+              transformOrigin: "bottom left",
+            }}
+          >
+            {renderPlusContent()}
+          </motion.div>
+        </>,
+        document.body,
+      );
+    }
+
     const menuWidth = plusView === "skills" ? Math.min(420, window.innerWidth - 24) : 300;
     const left = r ? Math.max(12, Math.min(window.innerWidth - menuWidth - 12, r.left + 8)) : 24;
     const bottom = r ? window.innerHeight - r.top + 8 : 96;
@@ -1938,34 +1876,6 @@ const ChatPage = () => {
             navigate={navigate}
           />
 
-          {/* Mobile plus menu — Gemini iOS-style draggable bottom sheet */}
-          <GlassSheet
-            open={plusMenuOpen && isMobileViewport}
-            onOpenChange={setPlusMenuOpen}
-            snapPoints={MOBILE_PLUS_SNAP_POINTS}
-            activeSnapPoint={plusSnapPoint}
-            setActiveSnapPoint={setPlusSnapPoint}
-            fadeFromIndex={1}
-          >
-            <GlassSheetContent
-              overlayClassName="bg-background/12 backdrop-blur-[1px]"
-              contentClassName="px-0 pt-0 pb-0 flex flex-col min-h-0"
-              className="gemini-mobile-plus-sheet h-[92dvh] border-t border-foreground/[0.08] rounded-t-[30px]"
-            >
-              <div
-                ref={plusSheetScrollRef}
-                data-plus-menu
-                onScroll={handlePlusSheetScroll}
-                onTouchStart={handlePlusTouchStart}
-                onTouchMove={handlePlusTouchMove}
-                onTouchEnd={handlePlusTouchEnd}
-                onTouchCancel={handlePlusTouchEnd}
-                className="px-4 pt-0 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y"
-              >
-                {renderPlusContent()}
-              </div>
-            </GlassSheetContent>
-          </GlassSheet>
           <ChatDialogs
             shareDialogOpen={shareDialogOpen}
             setShareDialogOpen={setShareDialogOpen}
