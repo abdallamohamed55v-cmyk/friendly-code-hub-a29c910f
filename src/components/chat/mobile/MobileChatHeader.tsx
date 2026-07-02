@@ -199,17 +199,29 @@ export default function MobileChatHeader({
         ) : null}
 
         {hasConversation && (
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-label="More options"
-            aria-haspopup="menu"
-            aria-expanded={open}
-            data-testid="mobile-more-trigger"
-            className="w-10 h-10 inline-flex items-center justify-center rounded-full text-foreground bg-transparent border-0 active:scale-95 transition"
-          >
-            <MoreVertical className="w-[22px] h-[22px]" strokeWidth={2} />
-          </button>
+          <div className="liquid-glass-button flex items-center h-10 rounded-full overflow-hidden">
+            <button
+              type="button"
+              onClick={onNewChat}
+              aria-label="New chat"
+              data-testid="mobile-new-chat"
+              className="h-10 w-10 inline-flex items-center justify-center text-foreground active:scale-95 transition"
+            >
+              <Plus className="w-[20px] h-[20px]" strokeWidth={2} />
+            </button>
+            <span className="h-5 w-px bg-foreground/15" />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-label="More options"
+              aria-haspopup="menu"
+              aria-expanded={open}
+              data-testid="mobile-more-trigger"
+              className="h-10 w-10 inline-flex items-center justify-center text-foreground active:scale-95 transition"
+            >
+              <MoreVertical className="w-[20px] h-[20px]" strokeWidth={2} />
+            </button>
+          </div>
         )}
       </div>
 

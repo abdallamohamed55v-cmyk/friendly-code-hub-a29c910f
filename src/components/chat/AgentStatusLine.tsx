@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Brain, Check, Wrench } from "lucide-react";
+import { Brain, Check, ChevronDown, Wrench } from "lucide-react";
 import MegsyStar from "@/components/files/MegsyStar";
 import { resolveToolActivity, brandIconUrl } from "@/lib/toolActivity";
 import * as Lucide from "lucide-react";
@@ -35,6 +35,8 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
   const [elapsed, setElapsed] = useState(0);
   const [lastDoneTool, setLastDoneTool] = useState<ToolActivity | null>(null);
   const [doneShownAt, setDoneShownAt] = useState<number>(0);
+  const [expanded, setExpanded] = useState(false);
+  const [thoughtLog, setThoughtLog] = useState<string[]>([]);
 
   useEffect(() => {
     const start = Date.now();
@@ -51,6 +53,21 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
       return () => window.clearTimeout(t);
     }
   }, [toolActivity?.name, toolActivity?.status]);
+
+  // Accumulate a thought log so the user can inspect what the agent is doing.
+  useEffect(() => {
+    const entry = searchStatus?.trim();
+    if (!entry) return;
+    setThoughtLog((prev) => (prev[prev.length - 1] === entry ? prev : [...prev, entry]));
+  }, [searchStatus]);
+  useEffect(() => {
+    if (toolActivity?.status === "running" && toolActivity.name) {
+      const meta = resolveToolActivity(toolActivity.name, toolActivity.appSlug);
+      const verb = meta?.en || toolActivity.name;
+      const line = toolActivity.target ? `${verb} · ${toolActivity.target}` : verb;
+      setThoughtLog((prev) => (prev[prev.length - 1] === line ? prev : [...prev, line]));
+    }
+  }, [toolActivity?.name, toolActivity?.status, toolActivity?.target, toolActivity?.appSlug]);
 
   const ar = useMemo(() => {
     if (isCleopatra) return true;
@@ -151,36 +168,85 @@ const AgentStatusLine = ({ searchStatus, toolActivity, userText }: AgentStatusLi
   const motionProps = reduce
     ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
     : {
-        initial: { opacity: 0, y: 4, filter: "blur(2px)" },
-        animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-        exit: { opacity: 0, y: -4, filter: "blur(2px)" },
+        initial: { opacity: 0, scale: 0.6, filter: "blur(4px)" },
+        animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
+        exit: { opacity: 0, scale: 0.6, filter: "blur(4px)" },
         transition,
       };
 
+  const canExpand = thoughtLog.length > 0 || elapsed > 1200;
+  const seconds = Math.max(1, Math.round(elapsed / 1000));
+  const expandLabel = ar ? `فكّرت لـ ${seconds} ث` : `Thought for ${seconds}s`;
+
   return (
     <div
-      className="flex items-center gap-2.5 py-1 min-h-[28px]"
+      className="flex flex-col gap-1.5 py-1"
       aria-live="polite"
       data-testid="agent-status"
       dir={ar ? "rtl" : undefined}
     >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div key={key} className="flex items-center gap-2.5" {...motionProps}>
-          <span className="relative inline-flex items-center justify-center w-5 h-5 shrink-0">
-            {icon}
-          </span>
-          {label && (
-            <span
-              className={
-                shimmer
-                  ? "ai-shimmer text-[13px] font-medium motion-reduce:animate-none"
-                  : "text-[13px] font-medium text-foreground/70 md:text-white/80"
-              }
-            >
-              {label}
+      <div className="flex items-center gap-2.5 min-h-[28px]">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div key={key} className="flex items-center gap-2.5" {...motionProps}>
+            <span className="relative inline-flex items-center justify-center w-5 h-5 shrink-0">
+              {icon}
             </span>
-          )}
-        </motion.div>
+            {label && (
+              <span
+                className={
+                  shimmer
+                    ? "ai-shimmer text-[13px] font-medium motion-reduce:animate-none"
+                    : "text-[13px] font-medium text-foreground/70 md:text-white/80"
+                }
+              >
+                {label}
+              </span>
+            )}
+          </motion.div>
+        </AnimatePresence>
+        {canExpand && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className="ml-1 inline-flex items-center gap-1 text-[11.5px] font-medium text-muted-foreground/80 hover:text-foreground/90 transition"
+          >
+            <span>{ar ? "التفكير" : "Thinking"}</span>
+            <ChevronDown
+              className={`w-3 h-3 transition-transform ${expanded ? "rotate-180" : ""}`}
+            />
+          </button>
+        )}
+      </div>
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="thoughts"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 0.9, 0.28, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="ml-1 rounded-xl border border-foreground/10 bg-foreground/[0.03] px-3 py-2 text-[12.5px] leading-6 text-foreground/80">
+              <div className="mb-1 text-[11px] uppercase tracking-wide text-muted-foreground/80">
+                {expandLabel}
+              </div>
+              {thoughtLog.length === 0 ? (
+                <div className="text-foreground/60">{ar ? "بفكّر…" : "Thinking…"}</div>
+              ) : (
+                <ul className="space-y-1">
+                  {thoughtLog.map((t, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="mt-2 w-1 h-1 rounded-full bg-foreground/40 shrink-0" />
+                      <span className="flex-1">{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
