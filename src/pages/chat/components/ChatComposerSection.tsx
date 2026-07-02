@@ -121,6 +121,8 @@ export function ChatComposerSection(props: ChatComposerSectionProps) {
       <div className="max-w-3xl mx-auto space-y-2 pointer-events-auto">
         <RemoteAiBusyBanner remoteAiBusy={remoteAiBusy} />
 
+        <UpgradeBannerMobile isEmpty={isEmpty} navigate={navigate} />
+
         <div className="relative mx-auto w-full max-w-3xl">
           <div data-tour="composer" className="relative">
             {mentionQuery && (
