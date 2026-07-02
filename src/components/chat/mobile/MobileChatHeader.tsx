@@ -240,6 +240,9 @@ export default function MobileChatHeader({
               onClick={() => {
                 if (!isDeleting) close();
               }}
+              onTouchStart={() => {
+                if (!isDeleting) close();
+              }}
             />
 
             <motion.div
