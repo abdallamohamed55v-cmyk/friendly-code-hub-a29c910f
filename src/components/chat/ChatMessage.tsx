@@ -1063,46 +1063,50 @@ const ChatMessage = ({
                     </PopoverContent>
                   </Popover>
                 </div>
-                {/* Mobile long-press menu — bottom sheet (same UX as the + sheet) */}
-                <GlassSheet open={menuOpen} onOpenChange={setMenuOpen}>
-                  <GlassSheetContent
-                    overlayClassName="bg-black/40 backdrop-blur-[2px]"
-                    className="md:hidden border-t border-foreground/15"
-                    contentClassName="px-2 pb-[calc(env(safe-area-inset-bottom)+1rem)]"
-                    dir="ltr"
-                    style={{
-                      background: "hsl(var(--background) / 0.72)",
-                      backdropFilter: "blur(28px) saturate(180%) brightness(1.05)",
-                      WebkitBackdropFilter: "blur(28px) saturate(180%) brightness(1.05)",
-                    }}
-                  >
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        await handleCopy();
-                        closeMenu();
-                      }}
-                      className="w-full flex items-center justify-between gap-4 px-5 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
-                      role="menuitem"
+                {/* Mobile long-press menu — floating liquid-glass card anchored
+                    to the top-right of the bubble (Claude-style). */}
+                {menuOpen && (
+                  <>
+                    <div
+                      className="md:hidden fixed inset-0 z-40"
+                      onClick={closeMenu}
+                      onTouchStart={closeMenu}
+                      aria-hidden
+                    />
+                    <div
+                      role="menu"
+                      dir="ltr"
+                      className="md:hidden liquid-glass-strong absolute right-0 z-50 min-w-[180px] rounded-[22px] p-1.5 animate-in fade-in-0 zoom-in-95 duration-150"
+                      style={{ bottom: "calc(100% + 8px)" }}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="text-[16px] font-medium text-left">Copy</span>
-                      <Copy className="w-5 h-5 shrink-0" strokeWidth={1.8} />
-                    </button>
-                    <div className="h-px bg-foreground/10 mx-4" />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEditAction();
-                        closeMenu();
-                      }}
-                      className="w-full flex items-center justify-between gap-4 px-5 h-14 rounded-[18px] text-foreground hover:bg-foreground/[0.06] transition-colors"
-                      role="menuitem"
-                    >
-                      <span className="text-[16px] font-medium text-left">Edit</span>
-                      <Pencil className="w-5 h-5 shrink-0" strokeWidth={1.8} />
-                    </button>
-                  </GlassSheetContent>
-                </GlassSheet>
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          await handleCopy();
+                          closeMenu();
+                        }}
+                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors"
+                        role="menuitem"
+                      >
+                        <Copy className="w-[18px] h-[18px] shrink-0" strokeWidth={1.8} />
+                        <span className="text-[15px] font-medium text-left flex-1">Copy</span>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditAction();
+                          closeMenu();
+                        }}
+                        className="w-full flex items-center gap-3 px-3.5 h-11 rounded-[14px] text-white/95 hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors"
+                        role="menuitem"
+                      >
+                        <Pencil className="w-[18px] h-[18px] shrink-0" strokeWidth={1.8} />
+                        <span className="text-[15px] font-medium text-left flex-1">Edit</span>
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             );
           })()}
