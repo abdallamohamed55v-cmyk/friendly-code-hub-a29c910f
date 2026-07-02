@@ -113,15 +113,20 @@ function UpgradeInlinePill() {
     <Link
       to="/pricing"
       aria-label="Upgrade to Megsy Pro"
-      className="shrink-0 inline-flex items-center gap-1.5 h-8 px-2.5 rounded-full text-[12px] font-semibold transition-colors active:scale-95"
+      className="shrink-0 inline-flex items-center gap-2 h-9 pl-2.5 pr-3.5 rounded-full text-[13px] font-semibold transition-colors active:scale-[0.97]"
       style={{
-        background: "rgba(217, 119, 87, 0.12)",
-        border: "1px solid rgba(217, 119, 87, 0.3)",
+        background: "#2A2520",
+        border: "1px solid #3A332C",
         color: "#D97757",
       }}
     >
-      <Zap className="w-3.5 h-3.5" fill="currentColor" />
-      <span>Upgrade</span>
+      <span
+        className="inline-flex items-center justify-center w-5 h-5 rounded-full"
+        style={{ background: "rgba(217, 119, 87, 0.18)" }}
+      >
+        <Zap className="w-3 h-3" fill="#D97757" stroke="#D97757" />
+      </span>
+      <span style={{ color: "#E8DDD4" }}>Get 50% off Pro</span>
     </Link>
   );
 }
