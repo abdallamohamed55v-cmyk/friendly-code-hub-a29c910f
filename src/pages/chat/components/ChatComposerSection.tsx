@@ -1,6 +1,6 @@
 
 import { useState, type ReactNode } from "react";
-import { Sparkles } from "lucide-react";
+import { Zap, ChevronRight } from "lucide-react";
 import ComposerAttachments from "./ComposerAttachments";
 import { RemoteAiBusyBanner } from "./RemoteAiBusyBanner";
 import { MentionDropdown } from "./MentionDropdown";
